@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -7,10 +8,10 @@ class GasParams:
     A class to hold gas parameters for a transaction
     """
 
-    gas: int = None
-    gas_price: int = None
-    max_fee_per_gas: int = None
-    max_priority_fee_per_gas: int = None
+    gas: Optional[int]
+    gas_price: Optional[int]
+    max_fee_per_gas: Optional[int]
+    max_priority_fee_per_gas: Optional[int]
 
     def to_dict(self):
         gas_params = {}

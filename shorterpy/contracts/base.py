@@ -27,9 +27,11 @@ class BaseContract:
 
     def __init__(self, api: ApiProvider, name: Contracts):
         self._api = api
-        self.abi = json.loads(
-            pkgutil.get_data(__name__, f"abi/{name.name}.json").decode("utf-8")
-        )["abi"]
+        data = pkgutil.get_data(__name__, f"./abi/{name.name}.json")
+        if data is not None:
+            self.abi = json.loads(data.decode("utf-8"))["abi"]
+        else:
+            raise Exception(f"{name.name} not found")
         self.addr = ADDRESSES[self._api.network.name][name.name]
         self.connect(self.addr, self.abi)
 

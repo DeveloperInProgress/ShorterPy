@@ -1,6 +1,6 @@
 from shorterpy.api import Network
 
-ADDRESSES = {
+ADDRESSES: dict[str, dict[str, str]] = {
     Network.RINKEBY.name: {
         "IPoolGuardian": "0xC7d06fD23c91A82746Faf3036fb108F9BaE1e54B",
         "ITradingHub": "0xDeA57Fb4d730F7c299cdb6A07ad7516A0419C3d4",

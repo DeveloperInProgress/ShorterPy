@@ -1,4 +1,4 @@
-from pkgutil import pkgutil
+import pkgutil
 
 
 def get_abi(contract_name: str):
@@ -7,4 +7,8 @@ def get_abi(contract_name: str):
     Args:
         contract_name: The name of the contract
     """
-    return pkgutil.get_data(__name__, f"./abi/{contract_name}.json").decode("utf-8")
+    data = pkgutil.get_data(__name__, f"./abi/{contract_name}.json")
+    if data is not None:
+        return data.decode("utf-8")
+    else:
+        raise Exception(f"{contract_name} not found")
