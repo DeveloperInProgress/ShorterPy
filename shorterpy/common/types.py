@@ -3,9 +3,10 @@ from dataclasses import dataclass
 
 @dataclass
 class GasParams:
-    '''
+    """
     A class to hold gas parameters for a transaction
-    '''
+    """
+
     gas: int = None
     gas_price: int = None
     max_fee_per_gas: int = None
