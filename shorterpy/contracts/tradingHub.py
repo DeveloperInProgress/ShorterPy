@@ -18,7 +18,7 @@ class TradingHub(BaseContract):
         pool_id: int,
         amount: int,
         amount_in_max: int,
-        swap_router: int,
+        swap_router: str,
         path: str,
         gas_params: GasParams,
     ) -> Any:
@@ -104,7 +104,7 @@ class TradingHub(BaseContract):
         pool_id: int,
         amount: int,
         amount_out_min: int,
-        swap_router: int,
+        swap_router: str,
         path: str,
         gas_params: GasParams,
     ) -> Any:
