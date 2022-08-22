@@ -115,3 +115,121 @@ Withdrawal can be made by calling `strPool.withdraw()` function
 tx_receipt = strPool.withdraw(<PERCENTAGE_TO_WITHDRAW>, <AMOUNT_TO_WITDRAW>, gas_params)
 ```
 
+### Trader Usecase
+
+Traders can use the `TradingHub` contract to buy cover or sell short
+
+#### Sell Short
+
+```
+from shorterpy.contracts.tradingHub import TradingHub
+
+tradingHub = TradingHub(api)
+
+gas_params = GasParams(gas=1000000, max_fee_per_gas=Web3.toWei(2, 'gwei'), max_priority_fee_per_gas=Web3.toWei(2, 'gwei'))
+
+tx_receipt = tradingHub.sell_short(<POOL_ID>, <AMOUNT>, <AMOUNT_OUT_MIN>, <SWAP_ROUTER>, <PATH>, gas_params)
+```
+
+#### Buy Cover
+
+```
+tx_receipt = tradingHub.buy_cover(<POOL_ID>, <AMOUNT>, <AMOUNT_IN_MAX>, <SWAP_ROUTER>, <PATH>, gas_params)
+```
+
+
+### Ruler Usecase
+
+Rulers can participate in committee activities by deposits/withdrawal of IPISTR tokens in `Committee` contract. 
+
+```
+from shorterpy.contracts.committee import Committee
+
+committee = Committee(api)
+
+gas_params = GasParams(gas=1000000, max_fee_per_gas=Web3.toWei(2, 'gwei'), max_priority_fee_per_gas=Web3.toWei(2, 'gwei'))
+
+#Deposit IPISTR to committee
+tx_receipt = committee.deposit(amount, gas_params)
+
+#Withdraw IPISTR from committee
+tx_receipt = committee.withdraw(amount, gas_params)
+```
+
+Rulers can also vote on proposals
+
+```
+tx_receipt = committee.vote(<PROPOSAL_ID>, <DIRECTION - True/False>, <VOTE_SHARE>, gas_params)
+```
+
+Rulers can also participate in Tanto and Katana bids
+
+```
+from shorterpy.contracts.auctionHall import AuctionHall
+
+auctionHall = AuctionHall(api)
+
+gas_params = GasParams(gas=1000000, max_fee_per_gas=Web3.toWei(2, 'gwei'), max_priority_fee_per_gas=Web3.toWei(2, 'gwei'))
+
+#Bid Tanto
+tx_receipt = auctionHall.bid_tanto(<POSITION_ADDR>, <BID_SIZE>, <PRIORITY_FEE>, gas_params)
+
+#Get phase1 infos
+p1_info = auctionHall.phase1_infos(<POSITION_ADDR>)
+
+#Bid Katana
+tx_receipt = auctionHall.bid_katana(<POSITION_ADDR>, <PATH>, gas_params)
+
+#get phase2 infos
+p2_info = auctionHall.phase2_infos(<POSITION_ADDR>)
+```
+
+Rulers can also execute naginata
+
+```
+from shorterpy.contracts.vaultButler import VaultButler
+
+vaultButler = VaultButler(api)
+
+gas_params = GasParams(gas=1000000, max_fee_per_gas=Web3.toWei(2, 'gwei'), max_priority_fee_per_gas=Web3.toWei(2, 'gwei'))
+
+#Execute Naginate
+tx_receipt = vaultButler.execute_naginata(<POSITION_ADDR>, <BID_SIZE>, gas_params)
+```
+
+### Guest
+
+Anyone can stake/unstake tokens from `Farming` contract for their participation in the platform.
+
+```
+from shorterpy.contracts.farming import Farming
+
+farming = Farming(api)
+
+gas_params = GasParams(gas=1000000, max_fee_per_gas=Web3.toWei(2, 'gwei'), max_priority_fee_per_gas=Web3.toWei(2, 'gwei'))
+
+#Stake
+tx_receipt = farming.stake(amount, gas_params)
+
+#Unstake
+tx_receipt = farming.unstake(amount, gas_params)
+```
+
+They can also harvest their rewards
+
+```
+#view pending rewards
+rewards = farming.all_pending_rewards(<USER_ADDR>)
+
+#haverst all rewards
+tx_receipt = farming.harvest_all(
+        <GOV_REWARDS>,
+        <FARMING_REWARDS>,
+        <VOTE_AGAINS_REWARDS>,
+        <TRADING_REWARD_POOLS>,
+        <STAKES_REWARD_POOLS>,
+        <CREATE_REWARD_POOLS>,
+        <VOTE_REWARD_POOLS>,
+        gas_params
+)
+```
